@@ -12,7 +12,8 @@
 set paste
 set tabstop=4
 
-" Automatic installation of missing plugins: https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
+"===Automatic installation of missing plugins
+"===https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
 " Install vim-plug if not found
 if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
 	silent !curl -fLo  ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
@@ -23,8 +24,15 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 	\| PlugInstall --sync | source $MYVIMRC
 \| endif
 
-
 call plug#begin('~/.config/nvim/plugged')
+
+	Plug 'vim-airline/vim-airline'
+		" Enable smart tab line
+		let g:airline#extensions#tabline#enabled = 1 
+		let g:airline#extensions#tabline#left_sep = '>'
+		let g:airline#extensions#tabline#left_alt_sep = ''
+		let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+	
 
 call plug#end()
 
