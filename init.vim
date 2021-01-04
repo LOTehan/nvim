@@ -13,6 +13,21 @@
 "==============================================================
 set paste
 set tabstop=4
+set mouse=a
+map sl :set splitright<CR>:vsplit<CR>
+map sh :set nosplitright<CR>:vsplit<CR>
+map sk :set nosplitbelow<CR>:split<CR>
+map sj :set splitbelow<CR>:split<CR>
+
+map <LEADER>h <C-w>h
+map <LEADER>j <C-w>j
+map <LEADER>k <C-w>k
+map <LEADER>l <C-w>l
+
+map <LEADER><UP> :res +5<CR>
+map <LEADER><DOWN> :res -5<CR>
+map <LEADER><LEFT> :vertical resize-5<CR>
+map <LEADER><RIGHT> :vertical resize+5<CR>
 
 "===Automatic installation of missing plugins
 "===https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
@@ -32,11 +47,40 @@ call plug#begin('~/.config/nvim/plugged')
 		" Integrating with powerline fonts
 		"=>Get prepatched fonts from https://github.com/powerline/fonts
 		let g:airline_powerline_fonts = 1
+
+		" Get vim-airline-themes repository for more themes
 		Plug 'vim-airline/vim-airline-themes'
 			let g:airline_theme='dark_minimal'
 
 		" Smarter tab line
 		let g:airline#extensions#tabline#enabled = 1
 			let g:airline#extensions#tabline#formatter = 'unique_tail_improved' 
+
+		" Define the set of text to display for each mode
+		let g:airline_mode_map = {
+			\ '__'     : '-',
+			\ 'c'      : 'C',
+			\ 'i'      : 'I',
+			\ 'ic'     : 'I',
+			\ 'ix'     : 'I',
+			\ 'n'      : 'N',
+			\ 'multi'  : 'M',
+			\ 'ni'     : 'N',
+			\ 'no'     : 'N',
+			\ 'R'      : 'R',
+			\ 'Rv'     : 'R',
+			\ 's'      : 'S',
+			\ 'S'      : 'S',
+			\ ''     : 'S',
+			\ 't'      : 'T',
+			\ 'v'      : 'V',
+			\ 'V'      : 'V',
+			\ ''     : 'V',
+		\ }
+
+		"Display a short path in statusline: >
+		let g:airline_stl_path_style = 'short'
+
+		""":AirlineExtensions Shows the status of all available airline extensions.
 
 call plug#end()
