@@ -9,6 +9,8 @@
 
 "Author: @LOTehan
 
+"=>Get prepatched fonts from https://github.com/powerline/fonts
+"==============================================================
 set paste
 set tabstop=4
 
@@ -27,12 +29,14 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 call plug#begin('~/.config/nvim/plugged')
 
 	Plug 'vim-airline/vim-airline'
-		" Enable smart tab line
-		let g:airline#extensions#tabline#enabled = 1 
-		let g:airline#extensions#tabline#left_sep = '>'
-		let g:airline#extensions#tabline#left_alt_sep = ''
-		let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-	
+		" Integrating with powerline fonts
+		"=>Get prepatched fonts from https://github.com/powerline/fonts
+		let g:airline_powerline_fonts = 1
+		Plug 'vim-airline/vim-airline-themes'
+			let g:airline_theme='dark_minimal'
+
+		" Smarter tab line
+		let g:airline#extensions#tabline#enabled = 1
+			let g:airline#extensions#tabline#formatter = 'unique_tail_improved' 
 
 call plug#end()
-
