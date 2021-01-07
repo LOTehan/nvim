@@ -29,6 +29,11 @@ map <LEADER><DOWN> :res -5<CR>
 map <LEADER><LEFT> :vertical resize-5<CR>
 map <LEADER><RIGHT> :vertical resize+5<CR>
 
+" Support chinese characters 
+set fileencodings=utf-8,gbk,utf-16le,cp1252,iso-8859-15,ucs-bom
+set termencoding=utf-8
+set encoding=utf-8
+
 "===Automatic installation of missing plugins
 "===https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
 " Install vim-plug if not found
