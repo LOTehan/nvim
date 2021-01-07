@@ -29,7 +29,7 @@ map <LEADER><DOWN> :res -5<CR>
 map <LEADER><LEFT> :vertical resize-5<CR>
 map <LEADER><RIGHT> :vertical resize+5<CR>
 
-" Support chinese characters 
+" Support Chinese Characters
 set fileencodings=utf-8,gbk,utf-16le,cp1252,iso-8859-15,ucs-bom
 set termencoding=utf-8
 set encoding=utf-8
