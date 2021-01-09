@@ -31,18 +31,41 @@ map <LEADER><DOWN> :res -5<CR>
 map <LEADER><LEFT> :vertical resize-5<CR>
 map <LEADER><RIGHT> :vertical resize+5<CR>
 
-" ```Automatic installation of missing plugins
+" Automatic installation of missing plugins````````````````````````````````````
 " @https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
-" Install vim-plug if not found
-if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-	silent !curl -fLo  ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
-		\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+" Windows10 x64
+if(has('win64'))
+	" Set shell-unquoting for Windows PowerShell
+	" @https://neovim.io/doc/user/options.html#shell-powershell
+	set shell=powershell.exe
+	set shellquote= shellpipe=\| shellxquote=
+	set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
+	set shellredir=\|\ Out-File\ -Encoding\ UTF8
+
+	" Install vim-plug if not found
+	if empty(glob('$LOCALAPPDATA/nvim-data/site/autoload/plug.vim'))
+		silent !iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim	|`
+			\	ni "$(@($env:XDG_DATA_HOME, $env:LOCALAPPDATA)[$null -eq $env:XDG_DATA_HOME])/nvim-data/site/autoload/plug.vim" -Force
+	endif
+
+" MacOS
+elseif(has('macx'))
+
+" Unix
+elseif(has('unix'))
+	" Install vim-plug if not found
+	if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+		silent !curl -fLo  ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+			\	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	endif
 endif
+
 " Run PlugInstall if there are missing plugins
 autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-	\| PlugInstall --sync | source $MYVIMRC
-\| endif
-" ```
+	\|	PlugInstall --sync | source $MYVIMRC
+	\|	endif
+" `````````````````````````````````````````````````````````````````````````````
 
 " Support Chinese characters
 set fileencodings=utf-8,gbk,utf-16le,cp1252,iso-8859-15,ucs-bom
@@ -56,7 +79,13 @@ au BufReadPost *
 	\|	exe "normal! g`\""
 	\|	endif
 
-call plug#begin('~/.config/nvim/plugged')
+
+
+if(has('win64'))
+	call plug#begin('$LOCALAPPDATA/nvim/plugged')
+elseif(has('unix'))
+	call plug#begin('~/.config/nvim/plugged')
+endif
 
 	Plug 'vim-airline/vim-airline'
 		" Integrating with powerline fonts
@@ -91,11 +120,15 @@ call plug#begin('~/.config/nvim/plugged')
 			\ 'v'      : 'V',
 			\ 'V'      : 'V',
 			\ ''     : 'V',
-		\ }
+			\ }
 
 		"Display a short path in statusline: >
 		let g:airline_stl_path_style = 'short'
 
 		""":AirlineExtensions Shows the status of all available airline extensions.
+
+	Plug 'iamcco/markdown-preview.nvim'
+		" Open preview server in the network
+		let g:mkdp_open_to_the_world = 1
 
 call plug#end()
