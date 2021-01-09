@@ -52,7 +52,7 @@ if(has('win64'))
 		set shell=cmd.exe
 		set shellquote= shellpipe=>\%s\ 2>&1 shellxquote="
 		set shellcmdflag=/s\ /c
-		set shellredir=>\%s 2>&1
+		set shellredir=>\%s\ 2>&1
 	endif
 
 " MacOS
