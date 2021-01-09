@@ -36,17 +36,23 @@ map <LEADER><RIGHT> :vertical resize+5<CR>
 
 " Windows10 x64
 if(has('win64'))
-	" Set shell-unquoting for Windows PowerShell
-	" @https://neovim.io/doc/user/options.html#shell-powershell
-	set shell=powershell.exe
-	set shellquote= shellpipe=\| shellxquote=
-	set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
-	set shellredir=\|\ Out-File\ -Encoding\ UTF8
-
-	" Install vim-plug if not found
 	if empty(glob('$LOCALAPPDATA/nvim-data/site/autoload/plug.vim'))
+		" Set shell-unquoting for Windows PowerShell
+		" @https://neovim.io/doc/user/options.html#shell-powershell
+		set shell=powershell.exe
+		set shellquote= shellpipe=\| shellxquote=
+		set shellcmdflag=-NoLogo\ -NoProfile\ -ExecutionPolicy\ RemoteSigned\ -Command
+		set shellredir=\|\ Out-File\ -Encoding\ UTF8
+
+		" Install vim-plug if not found
 		silent !iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim	|`
 			\	ni "$(@($env:XDG_DATA_HOME, $env:LOCALAPPDATA)[$null -eq $env:XDG_DATA_HOME])/nvim-data/site/autoload/plug.vim" -Force
+
+		" Reset shell-unquoting for Windoes cmd
+		set shell=cmd.exe
+		set shellquote= shellpipe=>\%s\ 2>&1 shellxquote="
+		set shellcmdflag=/s\ /c
+		set shellredir=>\%s 2>&1
 	endif
 
 " MacOS
