@@ -60,8 +60,8 @@ elseif(has('macx'))
 
 " Unix
 elseif(has('unix'))
-	" Install vim-plug if not found
 	if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+		" Install vim-plug if not found
 		silent !curl -fLo  ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
 			\	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	endif
@@ -133,7 +133,7 @@ endif
 
 		""":AirlineExtensions Shows the status of all available airline extensions.
 
-		Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+	Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 		" Open preview server in the network
 		let g:mkdp_open_to_the_world = 1
 
