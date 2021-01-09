@@ -127,7 +127,7 @@ endif
 
 		""":AirlineExtensions Shows the status of all available airline extensions.
 
-	Plug 'iamcco/markdown-preview.nvim'
+		Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 		" Open preview server in the network
 		let g:mkdp_open_to_the_world = 1
 
