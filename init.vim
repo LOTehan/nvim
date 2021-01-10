@@ -55,9 +55,6 @@ if(has('win64'))
 		set shellredir=>\%s\ 2>&1
 	endif
 
-" MacOS
-elseif(has('macx'))
-
 " Unix
 elseif(has('unix'))
 	if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
@@ -84,7 +81,6 @@ au BufReadPost *
 	\	if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit'
 	\|	exe "normal! g`\""
 	\|	endif
-
 
 
 if(has('win64'))
