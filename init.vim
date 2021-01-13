@@ -148,6 +148,9 @@ endif
 		" Open the preview window after entering the Md buffer
 		let g:mkdp_auto_start = 1
 
+		" Use port 8900 to start server
+		let g:mkdp_port = '8900'
+
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 		
 		" TextEdit might fail if hidden is not set.
