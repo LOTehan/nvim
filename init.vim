@@ -26,6 +26,10 @@ map <LEADER>h <C-w>h
 map <LEADER>j <C-w>j
 map <LEADER>k <C-w>k
 map <LEADER>l <C-w>l
+map <LEADER>H <C-w>H
+map <LEADER>J <C-w>J
+map <LEADER>K <C-w>K
+map <LEADER>L <C-w>L
 
 map <LEADER><UP> :res +5<CR>
 map <LEADER><DOWN> :res -5<CR>
@@ -70,6 +74,10 @@ autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
 	\|	PlugInstall --sync | source $MYVIMRC
 	\|	endif
 " `````````````````````````````````````````````````````````````````````````````
+
+set nocompatible
+filetype plugin on
+syntax on
 
 " Support Chinese characters
 set fileencodings=utf-8,gbk,utf-16le,cp1252,iso-8859-15,ucs-bom
@@ -143,25 +151,9 @@ endif
 
 	" Markdown environment`````````````````````````````````````````````````````
 
-	" Markdown preview with plantuml plugin
-	"Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
-
-		" Open preview server in the network
-		"let g:mkdp_open_to_the_world = 1
-
-		" Open the preview window after entering the Md buffer
-		"let g:mkdp_auto_start = 1
-
-		" Use port 8900 to start server
-		"let g:mkdp_port = '8090'
-
-	" Automatic table creator and formatter
-	Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle', 'for': ['text', 'markdown', 'vim-plug'] }
-	""":TableModeToggle mapped to <Leader>tm by default
-
 	" Markdown preview
 	"=>Get the mini-server by runing `sudo npm -g install instant-markdown-d`
-	Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown'}
+	Plug 'instant-markdown/vim-instant-markdown', {'for': ['markdown', 'vimwiki']}
 		
 		" Cause plugin to only refresh on proper events
 		"let g:instant_markdown_slow = 1
@@ -192,6 +184,42 @@ endif
 
 		" Set a custom port instead of the default '8090'
 		"let g:instant_markdown_port = 8090
+
+	" Markdown preview with plantuml plugin
+	"Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
+		" Open preview server in the network
+		"let g:mkdp_open_to_the_world = 1
+
+		" Open the preview window after entering the Md buffer
+		"let g:mkdp_auto_start = 1
+
+		" Use port 8900 to start server
+		"let g:mkdp_port = '8090'
+
+	" Generate table of contents for markdown files
+	Plug 'mzlogin/vim-markdown-toc', { 'for': ['gitignore', 'markdown', 'vim-plug', 'vimwiki'] }
+		" Use `:GenTocGFM` to insert ToC in GFM format on current cursor
+
+		" Set the inner text of the fence marker
+		let g:vmt_fence_text = 'Table of Contents'
+		let g:vmt_fence_closing_text = '/Table of Contents'
+
+		" instead cycle between the valid list item markers *, - and +
+		let g:vmt_cycle_list_item_markers = 1
+
+		" Set the default list item marker. */-/+
+		"let g:vmt_list_item_char = "+"
+
+		" Include headings before the position inserted ToC
+		"let g:vmt_include_headings_before = 1
+
+	" Personal wiki
+	Plug 'vimwiki/vimwiki', {'for': 'markdown'}
+		" `:h vimwiki` vimwiki manual
+
+		" Changing wiki syntax to markdown
+		let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}]
 
 	" `````````````````````````````````````````````````````````````````````````
 
@@ -282,17 +310,19 @@ call plug#end()
 
 " Run Compile `````````````````````````````````````````````````````````````````
 
-" Use `r` to compile
-noremap r :call RunCompile()<CR>
-
 func! RunCompile()
 	" Autosave
 	exec "w"
 
 	if &filetype == 'markdown'
 		exec "InstantMarkdownPreview"
+	elseif &filetype == 'vimwiki'
+		exec "InstantMarkdownPreview"
 	endif
 endfunc
+
+" Use `r` to compile
+noremap r :call RunCompile()<CR>
 " `````````````````````````````````````````````````````````````````````````````
 
 " Macro format in markdown
