@@ -122,7 +122,7 @@ endif
 			\ 't'      : 'T',
 			\ 'v'      : 'V',
 			\ 'V'      : 'V',
-			\ ''     : 'V',
+			\ ''     : 'V',
 			\ }
 
 		"Display a short path in statusline
@@ -141,15 +141,59 @@ endif
 
 		""":AirlineExtensions Shows the status of all available airline extensions.
 
-	Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+	" Markdown environment`````````````````````````````````````````````````````
+
+	" Markdown preview with plantuml plugin
+	"Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
 		" Open preview server in the network
-		let g:mkdp_open_to_the_world = 1
+		"let g:mkdp_open_to_the_world = 1
 
 		" Open the preview window after entering the Md buffer
-		let g:mkdp_auto_start = 1
+		"let g:mkdp_auto_start = 1
 
 		" Use port 8900 to start server
-		let g:mkdp_port = '8900'
+		"let g:mkdp_port = '8090'
+
+	" Automatic table creator and formatter
+	Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle', 'for': ['text', 'markdown', 'vim-plug'] }
+	""":TableModeToggle mapped to <Leader>tm by default
+
+	" Markdown preview
+	"=>Get the mini-server by runing `sudo npm -g install instant-markdown-d`
+	Plug 'instant-markdown/vim-instant-markdown', {'for': 'markdown'}
+		
+		" Cause plugin to only refresh on proper events
+		"let g:instant_markdown_slow = 1
+		
+		" Disable automatically launching preview window after entering
+		let g:instant_markdown_autostart = 0
+
+		" Open preview server in the network
+		let g:instant_markdown_open_to_the_world = 1
+
+		" Allow scripts to run
+		let g:instant_markdown_allow_unsafe_content = 1
+		
+		" Block external resources such as images, stylesheets, frames and plugins
+		"let g:instant_markdown_allow_external_content = 0
+		
+		" Available the TeX code embedded with markdown
+		let g:instant_markdown_mathjax = 1
+
+		" Available the mermaid diagrams
+		let g:instant_markdown_mermaid = 1
+
+		" Detect the browser
+		"let g:instant_markdown_browser = "firefox --new-window"
+
+		" Disable the live preview to where your cursor is positioned
+		"let g:instant_markdown_autoscroll = 0
+
+		" Set a custom port instead of the default '8090'
+		"let g:instant_markdown_port = 8090
+
+	" `````````````````````````````````````````````````````````````````````````
 
 	Plug 'neoclide/coc.nvim', {'branch': 'release'}
 		
@@ -235,3 +279,37 @@ endif
 			\	]
 
 call plug#end()
+
+" Run Compile `````````````````````````````````````````````````````````````````
+
+" Use `r` to compile
+noremap r :call RunCompile()<CR>
+
+func! RunCompile()
+	" Autosave
+	exec "w"
+
+	if &filetype == 'markdown'
+		exec "InstantMarkdownPreview"
+	endif
+endfunc
+" `````````````````````````````````````````````````````````````````````````````
+
+" Macro format in markdown
+autocmd Filetype markdown inoremap <buffer> ,f <Esc>/<++><CR>:nohlsearch<CR>"_c4l
+autocmd Filetype markdown inoremap <buffer> ,w <Esc>/ <++><CR>:nohlsearch<CR>"_c5l<CR>
+autocmd Filetype markdown inoremap <buffer> ,n ---<Enter><Enter>
+autocmd Filetype markdown inoremap <buffer> ,b **** <++><Esc>F*hi
+autocmd Filetype markdown inoremap <buffer> ,s ~~~~ <++><Esc>F~hi
+autocmd Filetype markdown inoremap <buffer> ,i ** <++><Esc>F*i
+autocmd Filetype markdown inoremap <buffer> ,d `` <++><Esc>F`i
+autocmd Filetype markdown inoremap <buffer> ,c ```<Enter><++><Enter>```<Enter><Enter><++><Esc>4kA
+autocmd Filetype markdown inoremap <buffer> ,m - [ ] 
+autocmd Filetype markdown inoremap <buffer> ,p ![](<++>) <++><Esc>F[a
+autocmd Filetype markdown inoremap <buffer> ,a [](<++>) <++><Esc>F[a
+autocmd Filetype markdown inoremap <buffer> ,1 #<Space><Enter><++><Esc>kA
+autocmd Filetype markdown inoremap <buffer> ,2 ##<Space><Enter><++><Esc>kA
+autocmd Filetype markdown inoremap <buffer> ,3 ###<Space><Enter><++><Esc>kA
+autocmd Filetype markdown inoremap <buffer> ,4 ####<Space><Enter><++><Esc>kA
+autocmd Filetype markdown inoremap <buffer> ,l --------<Enter>
+
